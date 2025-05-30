@@ -12,40 +12,28 @@
                 <div class="card-body">
                     <form action="{% url 'registerUser' %}" method="POST">
                         {% csrf_token %}
-                        
-                        <!-- First Name and Last Name side by side -->
                         <div class="form-row" >
                             <div class="form-group col-md-6" >
                                 <label>First name</label>
-                                <input type="text" name="fname" class="form-control" placeholder="firsname here" required>
+                                {{form.first_name}}
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Last name</label>
-                                <input type="text" name="lname" class="form-control" placeholder="lastname here"    required>
+                                {{form.last_name}}
                             </div>
                         </div>
 
                         <!-- Restaurant Name and Phone side by side -->
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Restaurant name</label>
-                                <input type="text" name="restaurant_name" class="form-control" placeholder = "restaurant name here" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Restaurant Phone</label>
-                                <input type="tel" name="phnumber" class="form-control" placeholder = "restaurant phone number here" maxlength="10" pattern="[0-9]{10}" required>
-                            </div>
-                        </div>
-
+             
                         <!-- Email and Username side by side -->
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Email Address</label>
-                                <input type="email" name="email" placeholder="Email here" class="form-control" required>
+                                 {{ form.email }}
                             </div>
                             <div class="form-group col-md-6">
                                 <label>User name</label>
-                                <input type="text" name="username" class="form-control" placeholder = "user name here " required>
+                                {{form.username}}
                             </div>
                         </div>
 
@@ -53,15 +41,29 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Password</label>
-                                <input type="password" name="password" class="form-control"placeholder = "password here " required>
+                               {{form.password}}
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Confirm Password</label>
-                                <input type="password" name="cpassword" class="form-control" placeholder="conform pasword" required>
+                                {{form.confirm_password}}
                             </div>
                         </div>
-
+                            <ul class ="errorlist">
+                                {% for field in form%}
+                                   {% if field.errors %}
+                                       {% for error in field.errors %}
+                                             <li style="color: red;">{{ error }}</li>
+                                       {% endfor %}
+                                       {% endif %}
+                                       {% endfor %}
+                                    <li style="color: red;">{{form.non_field_errors}}</li>
+                            </ul>
                         <button type="submit" class="btn btn-danger">Register</button>
+                             
+                    <div class ='message'>
+                        {%include 'includes/alerts.html'%}
+                   </div>        
+                           
                     </form>
                 </div>
             </div>
