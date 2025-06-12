@@ -4,6 +4,7 @@ from django.db.models.fields.related import ForeignKey, OneToOneField
 
 
 
+
 # ✅ Custom User Manager
 class UserManager(BaseUserManager):
     def create_user(self, first_name, last_name, username, email, password=None):
@@ -47,7 +48,7 @@ class User(AbstractBaseUser):
        CUSTOMER = 2
 
        ROLE_CHOICE = (
-        (VENDOR, 'Vendor'),
+        (VENDOR, 'Restaurant'),
         (CUSTOMER, 'Customer'),
      )
 
@@ -64,7 +65,7 @@ class User(AbstractBaseUser):
     
        is_admin = models.BooleanField(default=False)
        is_staff = models.BooleanField(default=False)
-       is_active = models.BooleanField(default=False)
+       is_active = models.BooleanField(default=True)
        is_superadmin = models.BooleanField(default=False)
 
     # Connect the user to the custom manager
@@ -80,6 +81,14 @@ class User(AbstractBaseUser):
         return self.is_admin
        def has_module_perms(self,app_label):
         return True
+       def get_role(self):
+        if self.role == 1:
+            user_role = 'Vendor'
+        elif self.role == 2:
+            user_role = 'Customer'
+        return user_role
+   
+
     
 class userProfile(models.Model):
   
@@ -99,6 +108,6 @@ class userProfile(models.Model):
 
    def ___str__(self):
         return self.user.email
-
+   
 
 
